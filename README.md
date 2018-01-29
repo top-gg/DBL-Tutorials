@@ -12,3 +12,5 @@ We welcome non-tutorial writers to help us refine the tutorials, if you think so
 *If you are adding your tutorial here please make sure you follow the same layout*
 
 * **Setting up your development work space** - Javascript - Discord.js - **[York#0001](https://github.com/YorkAARGH, "York's Github")** - **[Completed Tutorial]**
+
+* **Getting started with JDA** - Java - JDA - **[Natan#1337](https://github.com/natanbc, "Natan's Github")** - **[Completed Tutorial]**
