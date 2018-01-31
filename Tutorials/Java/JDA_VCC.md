@@ -299,7 +299,7 @@ Add the code (again, with the checks!) that disconnects from any voice channel:
 
 If your code is not yet terminated, you need to do so by clicking the red stop button in the top right corner:
 
-[!IntelliJ](https://i.imgur.com/zlatPM1.png)
+![IntelliJ](https://i.imgur.com/zlatPM1.png)
 
 Run the code (**Run** -> **Run 'Bot'**), and test the functionality!
 
