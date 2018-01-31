@@ -203,7 +203,7 @@ For the name, enter `Bot`, and click **OK**.
 
 IntelliJ will open up a new tab for you, looking something like this (you may have a comment above the class):
 
-[!IntelliJ](https://i.imgur.com/yuPth03.png)
+![IntelliJ](https://i.imgur.com/yuPth03.png)
 
 Now's it's time to implement the main function!
 This is the entry point for your bot.
