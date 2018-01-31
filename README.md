@@ -15,4 +15,4 @@ We welcome non-tutorial writers to help us refine the tutorials. If you think co
 
 * **Getting started with JDA** - Java - JDA - **[Natan#1337](https://github.com/natanbc "Natan's Github")** - **[Completed Tutorial]**
 
-* **Voice channel connections with JDA** - Java - JDA - **[Arraying#7363](https://github.com/Arraying "Arraying's GitHub")** - **[WIP Tutorial]**
+* **Voice channel connections with JDA** - Java - JDA - **[Arraying#7363](https://github.com/Arraying "Arraying's GitHub")** - **[Tutorial Needs Reviewing]**
