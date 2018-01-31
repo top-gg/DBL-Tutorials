@@ -208,7 +208,7 @@ IntelliJ will open up a new tab for you, looking something like this (you may ha
 Now's it's time to implement the main function!
 This is the entry point for your bot.
 This tutorial will use runtime parameters to pass in your Discord bot's token. 
-Why? Because hard-coding a token is very bad practise, and creating a configuration file handler would be too much for this tutorial.
+Why? Because hard-coding a token is very bad practice, and creating a configuration file handler would be too much for this tutorial.
 
 Add the following code to your bot:
 
