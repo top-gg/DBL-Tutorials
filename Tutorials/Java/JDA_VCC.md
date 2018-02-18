@@ -203,7 +203,13 @@ For the name, enter `Bot`, and click **OK**.
 
 IntelliJ will open up a new tab for you, looking something like this (you may have a comment above the class):
 
-![IntelliJ](https://i.imgur.com/yuPth03.png)
+```java
+package de.arraying.cyborg
+
+public class Bot {
+
+}
+```
 
 Now's it's time to implement the main function!
 This is the entry point for your bot.
@@ -212,11 +218,63 @@ Why? Because hard-coding a token is very bad practice, and creating a configurat
 
 Add the following code to your bot:
 
-![IntelliJ](https://i.imgur.com/crlSkYk.png)
+```java
+package de.arraying.cyborg;
+
+public class Bot {
+
+    // Main function, program entry point.
+    public static void main(String[] args) {
+        // Checks if there were any parameters passed in.
+        if(args.length == 0) {
+            // We need at least one -- our token!
+            System.out.println("Please provide a token!");
+            return;
+        }
+        String token = args[0]; // 0 based indexing.
+    }
+
+}
+
+```
 
 Now it's time to add JDA, and make the bot connect to Discord.
 
-![IntelliJ](https://i.imgur.com/pclqLPV.png)
+```java
+package de.arraying.cyborg;
+
+import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDABuilder;
+
+import javax.security.auth.login.LoginException;
+
+public class Bot {
+
+    // Main function, program entry point.
+    public static void main(String[] args) {
+        // Checks if there were any parameters passed in.
+        if(args.length == 0) {
+            // We need at least one -- our token!
+            System.out.println("Please provide a token!");
+            return;
+        }
+        String token = args[0]; // 0 based indexing.
+        try {
+            JDA jda = new JDABuilder(AccountType.BOT) // New bot builder.
+                    .setToken(token) // Set the token.
+                    .addEventListener(new Handler()) // Registers the event listener.
+                    .buildBlocking(); // Block the current thread until JDA is 100% ready.
+            // Not required, but useful to demonstrate that everything worked.
+            System.out.println("Logged in as " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator() + "!");
+        } catch(LoginException | InterruptedException exception) {
+            // Print the error.
+            exception.printStackTrace();
+        }
+    }
+
+}
+```
 
 With that done, there's nothing stopping you from doing a test run!
 Click on **Run** -> **Run**.
@@ -272,30 +330,130 @@ Enter "Handler" as the name, and hit **OK**.
 
 Make the class extend "ListenerAdapter":
 
-![IntelliJ](https://i.imgur.com/wwEnfZb.png)
+```java
+package de.arraying.cyborg;
 
-Go back to `Bot.java`, and add the following line to your JDA code:
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-![IntelliJ](https://i.imgur.com/91NPAMe.png)
+public class Handler extends ListenerAdapter {
+
+}
+```
+
+Go back to `Bot.java`, and modify your JDA code to the following:
+
+```java
+            JDA jda = new JDABuilder(AccountType.BOT) // New bot builder.
+                    .setToken(token) // Set the token.
+                    .addEventListener(new Handler()) // Add an event listener.
+                    .buildBlocking(); // Block the current thread until JDA is 100% ready.
+```
 
 This will register your event handler. Go back to `Handler.java` and add the following method:
 
-![IntelliJ](https://i.imgur.com/Cu0wxvM.png)
+```java
+package de.arraying.cyborg;
+
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+public class Handler extends ListenerAdapter {
+
+    // Only listening to guild messages.
+    @Override
+    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+        // Good practise to ignore bots.
+        if(event.getAuthor().isBot()) {
+            return;
+        }
+        // Gets the raw message content and binds it to a local variable.
+        String message = event.getMessage().getContentRaw().toLowerCase();
+        // So we don't have to access event.getChannel() every time.
+        TextChannel channel = event.getChannel();
+    }
+}
+```
 
 You have an event handler that handles the event, and you have a method that handles messages.
 Now it's time to add an insanely basic command handler.
 The command handler will presume that your prefix is `!`.
 Quality bots have a command executor, with command objects, something left out in this tutorial.
+Update your method to the following:
 
-![IntelliJ](https://i.imgur.com/l3JxXoh.png)
+```java
+// Only listening to guild messages.
+    @Override
+    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+        // Good practise to ignore bots.
+        if(event.getAuthor().isBot()) {
+            return;
+        }
+        // Gets the raw message content and binds it to a local variable.
+        String message = event.getMessage().getContentRaw().toLowerCase();
+        // So we don't have to access event.getChannel() every time.
+        TextChannel channel = event.getChannel();
+        // Checks if the command is !join.
+        if(message.equals("!join")) {
+            
+        } else if(message.equals("!leave")) { // Checks if the command is !leave.
 
-Add the code (with the checks!) that connects to the user's voice channel:
+        }
+    }
+```
 
-![IntelliJ](https://i.imgur.com/2TK98Vj.png)
+Add the code (with the checks!) that connects to the user's voice channel. Edit the if statement to be the following (you may need to import, click on the red name and hit `ALT` + `ENTER` to import):
 
-Add the code (again, with the checks!) that disconnects from any voice channel:
+```java
+         if(message.equals("!join")) {
+            // Checks if the bot has permissions.
+            if(!event.getGuild().getSelfMember().hasPermission(channel, Permission.VOICE_CONNECT)) {
+                // The bot does not have permission to join any voice channel. Don't forget the .queue()!
+                channel.sendMessage("I do not have permissions to join a voice channel!").queue();
+                return;
+            }
+            // Creates a variable equal to the channel that the user is in.
+            VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
+            // Checks if they are in a channel -- not being in a channel means that the variable = null.
+            if(connectedChannel == null) {
+                // Don't forget to .queue()!
+                channel.sendMessage("You are not connected to a voice channel!").queue();
+                return;
+            }
+            // Gets the audio manager.
+            AudioManager audioManager = event.getGuild().getAudioManager();
+            // When somebody really needs to chill.
+            if(audioManager.isAttemptingToConnect()) {
+                channel.sendMessage("The bot is already trying to connect! Enter the chill zone!").queue();
+                return;
+            }
+            // Connects to the channel.
+            audioManager.openAudioConnection(connectedChannel);
+            // Obviously people do not notice someone/something connecting.
+            channel.sendMessage("Connected to the voice channel!").queue();
+        } else if(message.equals("!leave")) { // Checks if the command is !leave.
 
-![IntelliJ](https://i.imgur.com/OluvvkW.png)
+        }
+```
+
+Add the code (again, with the checks!) that disconnects from any voice channel to the else if statement:
+
+```java
+        } else if(message.equals("!leave")) { // Checks if the command is !leave.
+            // Gets the channel in which the bot is currently connected.
+            VoiceChannel connectedChannel = event.getGuild().getSelfMember().getVoiceState().getChannel();
+            // Checks if the bot is connected to a voice channel.
+            if(connectedChannel == null) {
+                // Get slightly fed up at the user.
+                channel.sendMessage("I am not connected to a voice channel!").queue();
+                return;
+            }
+            // Disconnect from the channel.
+            event.getGuild().getAudioManager().closeAudioConnection();
+            // Notify the user.
+            channel.sendMessage("Disconnected from the voice channel!").queue();
+        }
+```
 
 If your code is not yet terminated, you need to do so by clicking the red stop button in the top right corner:
 
