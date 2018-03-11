@@ -11,8 +11,12 @@ We welcome non-tutorial writers to help us refine the tutorials. If you think co
 ## Current Tutorials in the repository 
 *If you are adding your tutorial here, please make sure you follow the same layout.*
 
-* **Setting up your development work space** - Javascript - Discord.js - **[York#0001](https://github.com/YorkAARGH "York's Github")** - **[Completed Tutorial]**
+* **Setting up your development work space** - Javascript - Discord.js - **[York#0001](https://github.com/YorkAARGH "York's Github")** - **[Published]**
 
-* **Getting started with JDA** - Java - JDA - **[Natan#1337](https://github.com/natanbc "Natan's Github")** - **[Completed Tutorial]**
+* **Getting started with JDA** - Java - JDA - **[Natan#1337](https://github.com/natanbc "Natan's Github")** - **[Published]**
 
-* **Voice channel connections with JDA** - Java - JDA - **[Arraying#7363](https://github.com/Arraying "Arraying's GitHub")** - **[Tutorial Needs Reviewing]**
+* **How to make a moderation bot in JDA** - Java - JDA - **[Natan#1337](https://github.com/Arraying "Arraying's GitHub")** - **[Published]**
+
+* **Voice channel connections with JDA** - Java - JDA - **[Arraying#7363](https://github.com/Arraying "Arraying's GitHub")** - **[Published]**
+
+
